@@ -8,6 +8,7 @@ import {
 } from "../ui/chart";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
 import { coinMarketData } from "@/lib";
+import { intl } from "@/lib/utils";
 
 type CoinProps = {
   coin: {
@@ -18,11 +19,6 @@ type CoinProps = {
     current_price: number;
   };
 };
-
-const intl = new Intl.NumberFormat("en", {
-  style: "currency",
-  currency: "USD",
-});
 
 const chartConfig = {
   desktop: {
@@ -35,14 +31,14 @@ function Coin({ coin }: CoinProps) {
   return (
     <TableRow>
       <TableCell>
-        <div className="flex gap-2">
-          <img src={coin.image} width={24} height={24} />
-          <p className="font-semibold text-base">
-            {coin.name}{" "}
+        <div className="flex gap-2 items-center">
+          <img src={coin.image} className="size-[28px] aspect-square" />
+          <div>
             <span className="font-medium text-[14px] text-slate-500 uppercase">
               {coin.symbol}
             </span>
-          </p>
+            <p className="font-semibold">{coin.name}</p>
+          </div>
         </div>
       </TableCell>
       <TableCell>

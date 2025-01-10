@@ -7,6 +7,10 @@ import { BrowserProvider, ethers } from "ethers";
 import Coin from "./components/coin/coin";
 import { useWeb3Auth } from "./hooks/use-web3auth";
 import LoginScreen from "./components/login/login";
+import Header from "./components/header/header";
+import { Tabs, TabsList, TabsTrigger } from "./components/ui/tabs";
+import { TabsContent } from "@radix-ui/react-tabs";
+import Coins from "./components/coin/coins";
 function App() {
   const web3auth = useWeb3Auth();
 
@@ -55,6 +59,7 @@ function App() {
   };
 
   const logout = async () => {
+    await init();
     await web3auth.logout();
     setProvider(null);
     setLoggedIn(false);
@@ -79,6 +84,7 @@ function App() {
   };
 
   const getUserInfo = async () => {
+    await init();
     const user = await web3auth.getUserInfo();
     if (!ethersProvider) return;
     // For ethers v5
@@ -87,7 +93,6 @@ function App() {
 
     // Get user's Ethereum public address
     const address = await signer.getAddress();
-    console.log(address);
 
     const balance = ethers.formatEther(
       await ethersProvider.getBalance(address) // Balance is in wei
@@ -105,10 +110,15 @@ function App() {
 
       {loggedIn && (
         <>
-          <div>
-            <p>Balance: {account?.balance ?? 0}</p>
-            <p>Wallet: {account?.address ?? "0xnull"}</p>
-          </div>
+          <Header account={account} />
+          <Tabs defaultValue="coins">
+            <TabsList>
+              <TabsTrigger value="coins">Coins</TabsTrigger>
+            </TabsList>
+            <TabsContent value="coins">
+              <Coins />
+            </TabsContent>
+          </Tabs>
           <div>
             <button className="card" onClick={getUserInfo}>
               Get user info

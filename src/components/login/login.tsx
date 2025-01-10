@@ -1,8 +1,7 @@
-import { coins } from "@/lib";
+import Coins from "../coin/coins";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { Table, TableBody } from "../ui/table";
-import Coin from "../coin/coin";
+import Text from "../ui/text";
 
 export default function LoginScreen({
   onLogin,
@@ -12,13 +11,7 @@ export default function LoginScreen({
   return (
     <div>
       <LoginForm onLogin={onLogin} />
-      <Table>
-        <TableBody>
-          {coins.map((c) => (
-            <Coin coin={c} key={c.id} />
-          ))}
-        </TableBody>
-      </Table>
+      <Coins />
     </div>
   );
 }
@@ -29,10 +22,10 @@ function LoginForm({ onLogin }: { onLogin: () => Promise<void> | void }) {
       <Card className="bg-white/50 backdrop-blur-[2px]">
         <CardHeader className="flex justify-center items-center">
           <div className="size-8 bg-slate-400" />
-          <h1 className="text-3xl font-bold">Tracky</h1>
-          <h2 className="text-sm text-slate-500 border-t-[1px] border-slate-100">
-            Demo purposes only
-          </h2>
+          <Text variant="h1">Tracky</Text>
+          <div className="border-t-[1px] border-slate-100">
+            <Text variant="h2">Demo purposes only</Text>
+          </div>
         </CardHeader>
         <CardContent>
           <Button onClick={onLogin} className="text-base">
