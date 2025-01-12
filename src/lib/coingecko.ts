@@ -8,7 +8,7 @@ const headers = () => {
 };
 export const fetchCoins = async (): Promise<CoinType[]> => {
   return await fetch(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Ctether%2C%20ripple%2Cbinancecoin%2Csolana&price_change_percentage=1h",
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Ctether%2C%20ripple%2Cbinancecoin%2Csolana&price_change_percentage=30d",
     { headers: headers() }
   ).then((d) => d.json());
 };

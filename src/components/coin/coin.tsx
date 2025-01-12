@@ -5,6 +5,7 @@ import { formatNumber } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import { CoinType } from "@/models/coins";
+import { Badge } from "../ui/badge";
 
 type CoinProps = {
   starred?: boolean;
@@ -13,14 +14,16 @@ type CoinProps = {
   coinMarketData?: [number, number][];
 };
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
-
 function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color:
+        Math.sign(coin.price_change_percentage_30d_in_currency) < 0
+          ? "hsl(var(--chart-1))"
+          : "rgb(22 163 74 / var(--tw-bg-opacity, 1))",
+    },
+  } satisfies ChartConfig;
   const parsedData = coinMarketData?.map(([time, value]) => ({
     time,
     value,
@@ -73,7 +76,18 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
               />
             </LineChart>
           </ChartContainer>
-          <span>{coin.price_change_percentage_24h} %</span>
+          <Badge
+            variant={
+              Math.sign(coin.price_change_percentage_30d_in_currency) > 0
+                ? "positive"
+                : "destructive"
+            }
+          >
+            {Math.abs(coin.price_change_percentage_30d_in_currency).toPrecision(
+              5
+            )}{" "}
+            %
+          </Badge>
         </div>
       </TableCell>
     </TableRow>
