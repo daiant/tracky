@@ -1,16 +1,27 @@
+import { store } from "@/lib/store/store";
 import Coins from "../coin/coins";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import Text from "../ui/text";
+import { useWeb3Auth } from "@web3auth/modal-react-hooks";
+import { getBalance, getAddress } from "@/lib/ethers";
 
-export default function LoginScreen({
-  onLogin,
-}: {
-  onLogin: () => Promise<void> | void;
-}) {
+const { dispatch } = store;
+export default function LoginScreen() {
+  const { connect, userInfo, provider } = useWeb3Auth();
+
+  const login = async () => {
+    await connect();
+    dispatch.auth.setUserInfo(userInfo);
+    if (provider) {
+      dispatch.auth.setBalance(await getBalance(provider));
+      dispatch.auth.setAddress(await getAddress(provider));
+    }
+  };
+
   return (
     <div>
-      <LoginForm onLogin={onLogin} />
+      <LoginForm onLogin={login} />
       <Coins />
     </div>
   );

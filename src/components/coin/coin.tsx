@@ -1,4 +1,3 @@
-import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import {
   ChartConfig,
@@ -8,7 +7,7 @@ import {
 } from "../ui/chart";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
 import { coinMarketData } from "@/lib";
-import { intl } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 
 type CoinProps = {
   coin: {
@@ -42,7 +41,7 @@ function Coin({ coin }: CoinProps) {
         </div>
       </TableCell>
       <TableCell>
-        <p className="text-base">{intl.format(coin.current_price)}</p>
+        <p className="text-base">{formatNumber(coin.current_price)}</p>
       </TableCell>
       <TableCell>
         <div className="grid justify-center">

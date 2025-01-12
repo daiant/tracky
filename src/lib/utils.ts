@@ -5,7 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const intl = new Intl.NumberFormat("en", {
+const intl = new Intl.NumberFormat("en", {
   style: "currency",
   currency: "USD",
 });
+
+export const formatNumber = (value: number) => {
+  if (isNaN(value)) return intl.format(0);
+
+  return intl.format(value);
+};
