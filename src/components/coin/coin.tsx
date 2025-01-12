@@ -8,15 +8,14 @@ import {
 import { Line, LineChart, XAxis, YAxis } from "recharts";
 import { coinMarketData } from "@/lib";
 import { formatNumber } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Star } from "lucide-react";
+import { CoinType } from "@/models/coins";
 
 type CoinProps = {
-  coin: {
-    symbol: string;
-    name: string;
-    image: string;
-    price_change_percentage_24h: number;
-    current_price: number;
-  };
+  starred?: boolean;
+  onCoinStarred: () => void;
+  coin: CoinType;
 };
 
 const chartConfig = {
@@ -26,11 +25,23 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function Coin({ coin }: CoinProps) {
+function Coin({ coin, onCoinStarred, starred }: CoinProps) {
   return (
-    <TableRow>
+    <TableRow className="group">
       <TableCell>
         <div className="flex gap-2 items-center">
+          <Button
+            onClick={onCoinStarred}
+            variant="ghost"
+            className={`${
+              starred ? "opacity-100" : "opacity-0"
+            } group-hover:opacity-100 transition-all`}
+          >
+            <Star
+              fill={starred ? "#fec63b" : "transparent"}
+              stroke={starred ? "#fec63b" : "currentColor"}
+            />
+          </Button>
           <img src={coin.image} className="size-[28px] aspect-square" />
           <div>
             <span className="font-medium text-[14px] text-slate-500 uppercase">

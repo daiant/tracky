@@ -1,5 +1,5 @@
 import { store } from "@/lib/store/store";
-import Coins from "../coin/coins";
+import AllCoins from "../coin/coins";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import Text from "../ui/text";
@@ -13,6 +13,7 @@ export default function LoginScreen() {
   const login = async () => {
     await connect();
     dispatch.auth.setUserInfo(userInfo);
+
     if (provider) {
       dispatch.auth.setBalance(await getBalance(provider));
       dispatch.auth.setAddress(await getAddress(provider));
@@ -22,7 +23,7 @@ export default function LoginScreen() {
   return (
     <div>
       <LoginForm onLogin={login} />
-      <Coins />
+      <AllCoins />
     </div>
   );
 }

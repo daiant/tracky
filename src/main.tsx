@@ -10,7 +10,6 @@ import { Web3AuthProvider } from "@web3auth/modal-react-hooks";
 import web3AuthContextConfig from "./lib/w3a/context.ts";
 
 const peristor = getPersistor();
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
