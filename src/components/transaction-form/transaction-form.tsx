@@ -7,8 +7,13 @@ import { useState, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { toast } from "sonner";
 
-export default function SendMoneyForm() {
+export default function SendMoneyForm({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
   const [loading, setLoading] = useState(false);
   const { provider } = useWeb3Auth();
   const balance = useSelector<{ auth: Auth }, string>(
@@ -27,7 +32,16 @@ export default function SendMoneyForm() {
       data.get("destination") as string,
       data.get("amount") as string
     )
-      .then(() => {})
+      .then(() => {
+        toast.success("Transfer completed sucessfully!");
+        setTimeout(() => {
+          onComplete();
+        }, 200);
+      })
+      .catch((e) => {
+        console.error(e);
+        toast.error("Could not complete transaction.");
+      })
       .finally(() => setLoading(false));
   };
 
@@ -44,6 +58,7 @@ export default function SendMoneyForm() {
             min={0}
             max={parseFloat(balance || "0")}
             name="amount"
+            required
           />
           <span className="text-[64px] absolute right-0 top-[50%] translate-y-[-50%] text-slate-400 pointer-events-none">
             ETH

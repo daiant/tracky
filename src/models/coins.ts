@@ -1,6 +1,6 @@
 import { createModel } from "@rematch/core";
 import { RootModel } from ".";
-import { coins as CoinData } from "@/lib";
+import { fetchCoinHistoricalData, fetchCoins } from "@/lib/coingecko";
 
 export type CoinType = {
   id: string;
@@ -13,14 +13,46 @@ export type CoinType = {
 export type CoinStateProps = {
   starred: string[];
   coins: CoinType[];
+  coins_chart_data: { [key in string]: [number, number][] };
+  validate: number;
 };
 
 export const coins = createModel<RootModel>()({
   state: {
-    starred: [] as Array<string>,
-    coins: CoinData,
-  },
+    starred: [],
+    validate: 0,
+    coins: [],
+    coins_chart_data: {},
+  } as CoinStateProps,
+  effects: (dispatch) => ({
+    async getCoins() {
+      const data = await fetchCoins();
+      dispatch.coins.addCoins(data);
+      const charts = await fetchCoinHistoricalData(data.map((c) => c.id));
+      dispatch.coins.addCoinChartData(charts);
+    },
+  }),
   reducers: {
+    addCoinChartData(
+      state,
+      payload: { id: string; data: [number, number][] }[]
+    ) {
+      const chart_data = {} as CoinStateProps["coins_chart_data"];
+      payload.forEach((data) => {
+        chart_data[data.id] = data.data;
+      });
+      return {
+        ...state,
+        coins_chart_data: chart_data,
+      };
+    },
+    addCoins(state, payload: CoinType[]) {
+      return {
+        ...state,
+        coins: payload,
+        validate: new Date().setHours(new Date().getHours() + 1),
+      };
+    },
     addStarred(state, payload: string) {
       if (state.starred.includes(payload)) return state;
       return {

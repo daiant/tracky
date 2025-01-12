@@ -1,12 +1,6 @@
 import { TableCell, TableRow } from "../ui/table";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "../ui/chart";
+import { ChartConfig, ChartContainer } from "../ui/chart";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
-import { coinMarketData } from "@/lib";
 import { formatNumber } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
@@ -16,6 +10,7 @@ type CoinProps = {
   starred?: boolean;
   onCoinStarred: () => void;
   coin: CoinType;
+  coinMarketData?: [number, number][];
 };
 
 const chartConfig = {
@@ -25,7 +20,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function Coin({ coin, onCoinStarred, starred }: CoinProps) {
+function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
+  const parsedData = coinMarketData?.map(([time, value]) => ({
+    time,
+    value,
+  }));
   return (
     <TableRow className="group">
       <TableCell>
@@ -35,7 +34,7 @@ function Coin({ coin, onCoinStarred, starred }: CoinProps) {
             variant="ghost"
             className={`${
               starred ? "opacity-100" : "opacity-0"
-            } group-hover:opacity-100 transition-all`}
+            } group-hover:opacity-100 transition-all px-2`}
           >
             <Star
               fill={starred ? "#fec63b" : "transparent"}
@@ -57,7 +56,7 @@ function Coin({ coin, onCoinStarred, starred }: CoinProps) {
       <TableCell>
         <div className="grid justify-center">
           <ChartContainer config={chartConfig} className="h-8">
-            <LineChart data={coinMarketData.prices}>
+            <LineChart data={parsedData}>
               <YAxis
                 domain={["dataMin", "dataMax"]}
                 axisLine={false}
@@ -65,10 +64,6 @@ function Coin({ coin, onCoinStarred, starred }: CoinProps) {
                 hide
               />
               <XAxis dataKey="time" tickLine={false} axisLine={false} hide />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
               <Line
                 dataKey="value"
                 type="linear"

@@ -33,7 +33,7 @@ function LoginForm({ onLogin }: { onLogin: () => Promise<void> | void }) {
     <div className="fixed inset-0 bg-gradient-to-t from-white from-35% to-transparent z-10 grid justify-center items-center">
       <Card className="bg-white/50 backdrop-blur-[2px]">
         <CardHeader className="flex justify-center items-center">
-          <div className="size-8 bg-slate-400" />
+          <img src={"/logo.svg"} className="size-8" />
           <Text variant="h1">Tracky</Text>
           <div className="border-t-[1px] border-slate-100">
             <Text variant="h2">Demo purposes only</Text>

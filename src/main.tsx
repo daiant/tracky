@@ -8,10 +8,12 @@ import { store } from "./lib/store/store.ts";
 import { Provider } from "react-redux";
 import { Web3AuthProvider } from "@web3auth/modal-react-hooks";
 import web3AuthContextConfig from "./lib/w3a/context.ts";
+import { Toaster } from "sonner";
 
 const peristor = getPersistor();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Toaster richColors />
     <Provider store={store}>
       <PersistGate persistor={peristor}>
         <Web3AuthProvider config={web3AuthContextConfig}>

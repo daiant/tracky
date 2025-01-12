@@ -11,28 +11,27 @@ function CoinList({ coins }: { coins: Array<CoinType> }) {
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins
   );
-
+  console.log(coinData);
   return (
-    <div className="p-2">
-      <Table>
-        <TableBody>
-          {coins.map((c) => (
-            <Coin
-              coin={c}
-              key={c.id}
-              onCoinStarred={() => {
-                if (coinData.starred.includes(c.symbol)) {
-                  dispatch.coins.removeStarred(c.symbol);
-                } else {
-                  dispatch.coins.addStarred(c.symbol);
-                }
-              }}
-              starred={coinData.starred.includes(c.symbol)}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <Table>
+      <TableBody>
+        {coins.map((c) => (
+          <Coin
+            coin={c}
+            key={c.id}
+            onCoinStarred={() => {
+              if (coinData.starred.includes(c.symbol)) {
+                dispatch.coins.removeStarred(c.symbol);
+              } else {
+                dispatch.coins.addStarred(c.symbol);
+              }
+            }}
+            starred={coinData.starred.includes(c.symbol)}
+            coinMarketData={coinData.coins_chart_data[c.id]}
+          />
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 

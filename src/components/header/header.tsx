@@ -12,22 +12,24 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTrigger,
 } from "../ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import SendMoneyForm from "../transaction-form/transaction-form";
+import { useState } from "react";
 
 function Header() {
   const account = useSelector<{ auth: Auth }, Auth>((state) => state.auth);
   const { logout } = useWeb3Auth();
   const dispatch = useDispatch<typeof store.dispatch>();
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   if (!account) return null;
 
   const address = () => {
     if (!account.address) return "";
     return (
-      account.address.substring(3, 8) +
+      account.address.substring(2, 8) +
       " ... " +
       account.address.substring(account.address.length - 5)
     );
@@ -45,7 +47,7 @@ function Header() {
     await logout();
   };
 
-  const handleCopy = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCopy = async () => {
     navigator.clipboard.writeText(account.address);
   };
 
@@ -75,7 +77,7 @@ function Header() {
               />
             )} */}
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent className="right-1">
             <Button
               variant="ghost"
               onClick={handleLogout}
@@ -90,15 +92,19 @@ function Header() {
       <div className="text-center grid gap-4 justify-center">
         <Text variant="h2">Total account balance</Text>
         <Text variant="h1">{formatCrypto(parseFloat(account.balance))}</Text>
-        <Dialog>
-          <DialogTrigger className="text-sm text-slate-900 font-medium hover:underline">
+        <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(false)}>
+          <Button
+            variant="ghost"
+            className="text-sm text-slate-900 font-medium"
+            onClick={() => setDialogOpen(true)}
+          >
             Send Funds
-          </DialogTrigger>
+          </Button>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Send mon-ay</DialogTitle>
               <DialogDescription>Testing purposes only</DialogDescription>
-              <SendMoneyForm />
+              <SendMoneyForm onComplete={() => setDialogOpen(false)} />
             </DialogHeader>
           </DialogContent>
         </Dialog>
