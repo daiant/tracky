@@ -1,7 +1,7 @@
-import { formatCrypto, formatNumber } from "@/lib/utils";
+import { formatCrypto } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CircleUserRound, Clipboard, Info } from "lucide-react";
+import { CircleUserRound, Clipboard } from "lucide-react";
 import Text from "../ui/text";
 import { useDispatch, useSelector } from "react-redux";
 import { Auth } from "@/models/auth";
@@ -14,9 +14,8 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "../ui/dialog";
-import { Input } from "../ui/input";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useState } from "react";
+import SendMoneyForm from "../transaction-form/transaction-form";
 
 function Header() {
   const account = useSelector<{ auth: Auth }, Auth>((state) => state.auth);
@@ -46,7 +45,7 @@ function Header() {
     await logout();
   };
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent<HTMLButtonElement>) => {
     navigator.clipboard.writeText(account.address);
   };
 
@@ -105,44 +104,6 @@ function Header() {
         </Dialog>
       </div>
     </div>
-  );
-}
-
-function SendMoneyForm() {
-  const [inputWidth, setInputWidth] = useState(1);
-  const balance = useSelector<{ auth: Auth }, string>(
-    (state) => state.auth.balance
-  );
-
-  return (
-    <form className="flex flex-col gap-4">
-      <div>
-        <div className="flex items-center relative">
-          <Input
-            placeholder="0"
-            type="number"
-            className="text-[64px] h-17 appearance-none focus-visible:ring-0 border-0"
-            defaultValue={0}
-            onChange={(e) => setInputWidth(e.target.value.length)}
-            step="any"
-            min={0}
-            max={parseFloat(balance || "0")}
-          />
-          <span className="text-[64px] absolute right-0 top-[50%] translate-y-[-50%] text-slate-400 pointer-events-none">
-            ETH
-          </span>
-        </div>
-        <p className="text-sm flex items-center gap-2 text-slate-500 mt-1">
-          <Info width={14} height={14} />
-          <span>{formatCrypto(parseFloat(balance || "0"))} max.</span>
-        </p>
-      </div>
-      <Input
-        placeholder="Address"
-        className="text-[24px] h-16 appearance-none focus-visible:ring-0 border-0"
-      />
-      <Button>Send</Button>
-    </form>
   );
 }
 
