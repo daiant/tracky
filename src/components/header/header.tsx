@@ -55,7 +55,7 @@ function Header() {
     <div>
       <div className="flex justify-between">
         <div className="flex items-center gap-1 group cursor-default">
-          <p className="italic">{address()}</p>
+          <p>{address()}</p>
           {address() && (
             <Button
               onClick={handleCopy}
@@ -70,12 +70,6 @@ function Header() {
           <PopoverTrigger className="flex items-center gap-3">
             <p className="text-base">{name()}</p>
             <CircleUserRound />
-            {/* {account.user?.profileImage && (
-              <img
-                src={account.user.profileImage}
-                className="w-[28px] rounded-full"
-              />
-            )} */}
           </PopoverTrigger>
           <PopoverContent className="right-1">
             <Button
@@ -89,7 +83,7 @@ function Header() {
         </Popover>
       </div>
 
-      <div className="text-center grid gap-4 justify-center">
+      <div className="text-center grid justify-center py-2.5">
         <Text variant="h2">Total account balance</Text>
         <Text variant="h1">{formatCrypto(parseFloat(account.balance))}</Text>
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(false)}>
@@ -102,10 +96,12 @@ function Header() {
           </Button>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Send mon-ay</DialogTitle>
+              <DialogTitle className="text-lg font-medium">
+                Send to someone
+              </DialogTitle>
               <DialogDescription>Testing purposes only</DialogDescription>
-              <SendMoneyForm onComplete={() => setDialogOpen(false)} />
             </DialogHeader>
+            <SendMoneyForm onComplete={() => setDialogOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>

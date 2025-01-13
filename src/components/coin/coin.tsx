@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "../ui/table";
 import { ChartConfig, ChartContainer } from "../ui/chart";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
-import { formatNumber } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import { CoinType } from "@/models/coins";
@@ -32,19 +32,17 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
     <TableRow className="group">
       <TableCell>
         <div className="flex gap-2 items-center">
-          <Button
-            onClick={onCoinStarred}
-            variant="ghost"
-            className={`${
-              starred ? "opacity-100" : "opacity-0"
-            } group-hover:opacity-100 transition-all px-2`}
-          >
+          <Button onClick={onCoinStarred} variant="link" className="group p-0">
             <Star
               fill={starred ? "#fec63b" : "transparent"}
               stroke={starred ? "#fec63b" : "currentColor"}
+              className={cn(
+                starred ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                "transition-all"
+              )}
             />
           </Button>
-          <img src={coin.image} className="size-[28px] aspect-square" />
+          <img src={coin.image} className={"size-[28px] aspect-square"} />
           <div>
             <span className="font-medium text-[14px] text-slate-500 uppercase">
               {coin.symbol}
@@ -54,28 +52,30 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
         </div>
       </TableCell>
       <TableCell>
-        <p className="text-base">{formatNumber(coin.current_price)}</p>
+        <ChartContainer config={chartConfig} className="h-8">
+          <LineChart data={parsedData}>
+            <YAxis
+              domain={["dataMin", "dataMax"]}
+              axisLine={false}
+              tickLine={false}
+              hide
+            />
+            <XAxis dataKey="time" tickLine={false} axisLine={false} hide />
+            <Line
+              dataKey="value"
+              type="linear"
+              stroke="var(--color-desktop)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
       </TableCell>
       <TableCell>
-        <div className="grid justify-center">
-          <ChartContainer config={chartConfig} className="h-8">
-            <LineChart data={parsedData}>
-              <YAxis
-                domain={["dataMin", "dataMax"]}
-                axisLine={false}
-                tickLine={false}
-                hide
-              />
-              <XAxis dataKey="time" tickLine={false} axisLine={false} hide />
-              <Line
-                dataKey="value"
-                type="linear"
-                stroke="var(--color-desktop)"
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
-          </ChartContainer>
+        <div className="grid justify-items-end">
+          <p className="text-base font-medium text-slate-700">
+            {formatNumber(coin.current_price)}
+          </p>
           <Badge
             variant={
               Math.sign(coin.price_change_percentage_30d_in_currency) > 0

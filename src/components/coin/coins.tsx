@@ -6,12 +6,12 @@ import { store } from "@/lib/store/store";
 import { StarOff } from "lucide-react";
 import { Button } from "../ui/button";
 
-function CoinList({ coins }: { coins: Array<CoinType> }) {
+function CoinList({ coins }: { coins: Array<CoinType>; showStarred: boolean }) {
   const dispatch = useDispatch<typeof store.dispatch>();
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins
   );
-  console.log(coinData);
+
   return (
     <Table>
       <TableBody>
@@ -47,9 +47,11 @@ export function StarredCoins({ navigateCoins }: { navigateCoins: () => void }) {
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins
   );
+
   const starred = coinData.coins.filter((c) =>
     coinData.starred.includes(c.symbol)
   );
+
   if (!starred.length)
     return (
       <div className="grid items-center justify-items-center gap-4 py-12">

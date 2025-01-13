@@ -52,7 +52,7 @@ export default function SendMoneyForm({
           <Input
             placeholder="0"
             type="number"
-            className="text-[64px] h-17 appearance-none focus-visible:ring-0 border-0 w-[calc(100% - 3ch)]"
+            className="text-[64px] h-17 appearance-none focus-visible:ring-0 border-0 w-[calc(100%-3ch)]"
             defaultValue={0}
             step="any"
             min={0}
@@ -60,11 +60,11 @@ export default function SendMoneyForm({
             name="amount"
             required
           />
-          <span className="text-[64px] absolute right-0 top-[50%] translate-y-[-50%] text-slate-400 pointer-events-none">
+          <span className="text-[64px] absolute right-0 top-[50%] translate-y-[-50%] text-muted-foreground pointer-events-none">
             ETH
           </span>
         </div>
-        <p className="text-sm flex items-center gap-2 text-slate-500 mt-1">
+        <p className="text-sm flex items-center gap-2 text-secondary-foreground mt-1">
           <Info width={14} height={14} />
           <span>{formatCrypto(parseFloat(balance || "0"))} max.</span>
         </p>

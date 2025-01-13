@@ -14,6 +14,6 @@ export default function Text({
   }
 
   if (variant === "h2") {
-    return <h2 className="text-sm text-slate-500 ">{children}</h2>;
+    return <h2 className="text-sm text-secondary-foreground ">{children}</h2>;
   }
 }
