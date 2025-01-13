@@ -7,12 +7,13 @@ import { useWeb3Auth } from "@web3auth/modal-react-hooks";
 import { getBalance, getAddress } from "@/lib/ethers";
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
+import React from "react";
 
 const { dispatch } = store;
 export default function LoginScreen() {
   const { connect, userInfo, provider } = useWeb3Auth();
 
-  const login = async () => {
+  const login = async (e: React.MouseEvent<HTMLButtonElement>) => {
     await connect();
     dispatch.auth.setUserInfo(userInfo);
 
@@ -20,6 +21,9 @@ export default function LoginScreen() {
       dispatch.auth.setBalance(await getBalance(provider));
       dispatch.auth.setAddress(await getAddress(provider));
     }
+
+    // HACK: Idk why user info is visible only after second click
+    setTimeout(() => (e.target as HTMLButtonElement)?.click(), 100);
   };
 
   return (
@@ -30,7 +34,11 @@ export default function LoginScreen() {
   );
 }
 
-function LoginForm({ onLogin }: { onLogin: () => Promise<void> | void }) {
+function LoginForm({
+  onLogin,
+}: {
+  onLogin: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
+}) {
   const theme = useSelector<{ theme: string }, string>((state) => state.theme);
   return (
     <div className="fixed inset-0 bg-gradient-to-t from-background from-35% to-transparent z-10 grid justify-center items-center">
