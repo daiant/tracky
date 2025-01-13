@@ -8,6 +8,7 @@ import { getBalance, getAddress } from "@/lib/ethers";
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import React from "react";
+import Scroller from "../scroller/scroller";
 
 const { dispatch } = store;
 export default function LoginScreen() {
@@ -29,7 +30,14 @@ export default function LoginScreen() {
   return (
     <div>
       <LoginForm onLogin={login} />
-      <AllCoins />
+      <Scroller>
+        <AllCoins />
+        <AllCoins />
+        <AllCoins />
+        <AllCoins />
+        <AllCoins />
+        <AllCoins />
+      </Scroller>
     </div>
   );
 }
