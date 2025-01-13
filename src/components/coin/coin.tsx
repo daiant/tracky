@@ -19,7 +19,7 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
     desktop: {
       label: "Desktop",
       color:
-        Math.sign(coin.price_change_percentage_30d_in_currency) < 0
+        Math.sign(coin.price_change_percentage_24h) < 0
           ? "hsl(var(--chart-1))"
           : "rgb(22 163 74 / var(--tw-bg-opacity, 1))",
     },
@@ -44,10 +44,12 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
           </Button>
           <img src={coin.image} className={"size-[28px] aspect-square"} />
           <div>
-            <span className="font-medium text-[14px] text-slate-500 uppercase">
+            <span className="font-medium text-[14px] uppercase">
               {coin.symbol}
             </span>
-            <p className="font-semibold">{coin.name}</p>
+            <p className="font-semibold text-secondary-foreground">
+              {coin.name}
+            </p>
           </div>
         </div>
       </TableCell>
@@ -73,20 +75,17 @@ function Coin({ coin, onCoinStarred, starred, coinMarketData }: CoinProps) {
       </TableCell>
       <TableCell>
         <div className="grid justify-items-end">
-          <p className="text-base font-medium text-slate-700">
+          <p className="text-base font-medium">
             {formatNumber(coin.current_price)}
           </p>
           <Badge
             variant={
-              Math.sign(coin.price_change_percentage_30d_in_currency) > 0
+              Math.sign(coin.price_change_percentage_24h) > 0
                 ? "positive"
                 : "destructive"
             }
           >
-            {Math.abs(coin.price_change_percentage_30d_in_currency).toPrecision(
-              5
-            )}{" "}
-            %
+            {Math.abs(coin.price_change_percentage_24h).toPrecision(5)} %
           </Badge>
         </div>
       </TableCell>

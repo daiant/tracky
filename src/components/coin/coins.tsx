@@ -6,7 +6,7 @@ import { store } from "@/lib/store/store";
 import { StarOff } from "lucide-react";
 import { Button } from "../ui/button";
 
-function CoinList({ coins }: { coins: Array<CoinType>; showStarred: boolean }) {
+function CoinList({ coins }: { coins: Array<CoinType> }) {
   const dispatch = useDispatch<typeof store.dispatch>();
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins

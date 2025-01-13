@@ -11,6 +11,7 @@ import web3AuthContextConfig from "./lib/w3a/context.ts";
 import { Toaster } from "sonner";
 
 const peristor = getPersistor();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Toaster richColors />

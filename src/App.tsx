@@ -19,6 +19,7 @@ function App() {
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins
   );
+  const theme = useSelector<{ theme: string }, string>((state) => state.theme);
 
   useEffect(() => {
     const date = new Date().getTime();
@@ -27,12 +28,21 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    document.querySelector("body")!.classList.remove("light", "dark");
+    document.querySelector("body")!.classList.add(theme);
+  }, [theme]);
+
   if (!hasUserInfo) {
-    return <LoginScreen />;
+    return (
+      <div className={theme}>
+        <LoginScreen />
+      </div>
+    );
   }
 
   return (
-    <>
+    <div className={theme}>
       <Header />
       <Tabs value={tabValue} onValueChange={(e) => setTabValue(e)}>
         <TabsList>
@@ -46,7 +56,7 @@ function App() {
           <StarredCoins navigateCoins={() => setTabValue("coins")} />
         </TabsContent>
       </Tabs>
-    </>
+    </div>
   );
 }
 

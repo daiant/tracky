@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import Text from "../ui/text";
 import { useWeb3Auth } from "@web3auth/modal-react-hooks";
 import { getBalance, getAddress } from "@/lib/ethers";
+import { cn } from "@/lib/utils";
+import { useSelector } from "react-redux";
 
 const { dispatch } = store;
 export default function LoginScreen() {
@@ -29,11 +31,15 @@ export default function LoginScreen() {
 }
 
 function LoginForm({ onLogin }: { onLogin: () => Promise<void> | void }) {
+  const theme = useSelector<{ theme: string }, string>((state) => state.theme);
   return (
-    <div className="fixed inset-0 bg-gradient-to-t from-white from-35% to-transparent z-10 grid justify-center items-center">
-      <Card className="bg-white/50 backdrop-blur-[2px]">
+    <div className="fixed inset-0 bg-gradient-to-t from-background from-35% to-transparent z-10 grid justify-center items-center">
+      <Card className="bg-popover/50 backdrop-blur-[2px] border-muted">
         <CardHeader className="flex justify-center items-center">
-          <img src={"/logo.svg"} className="size-8" />
+          <img
+            src={"/logo.svg"}
+            className={cn("size-8", theme === "dark" ? "invert" : "")}
+          />
           <Text variant="h1">Tracky</Text>
           <div className="border-t-[1px] border-slate-100">
             <Text variant="h2">Demo purposes only</Text>
