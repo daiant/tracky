@@ -1,10 +1,16 @@
 {
-	"manifest_version": 3,
-	"name": "Tracky",
-	"version": "0.0.1",
-	"description": "Build a Crypto Price Tracker Browser Extension with Web3Auth and Redux Rematch",
-	"action": {
-		"default_popup": "index.html"
-	},
-	"permissions": []
+  "manifest_version": 3,
+  "name": "Tracky",
+  "icons": {
+    "16": "favicon-96x96.png",
+    "32": "favicon-96x96.png",
+    "48": "favicon-96x96.png",
+    "128": "favicon-96x96.png"
+  },
+  "version": "0.0.1",
+  "description": "Build a Crypto Price Tracker Browser Extension with Web3Auth and Redux Rematch",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": []
 }
