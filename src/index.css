@@ -83,6 +83,7 @@
 
   html {
     padding: 8px;
+    height: 600px;
   }
 
   html:has(#login) {

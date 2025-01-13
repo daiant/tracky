@@ -62,7 +62,7 @@ function App() {
                 setLoading(true);
                 dispatch.coins
                   .getCoins()
-                  .catch((error) => toast.warning("Could not fetch last data"))
+                  .catch(() => toast.warning("Could not fetch last data"))
                   .finally(() => setLoading(false));
               }}
               disabled={loading}
