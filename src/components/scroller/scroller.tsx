@@ -1,6 +1,8 @@
 import React from "react";
+import { CoinList } from "../coin/coins";
+import { MOCK_LOGIN_DATA } from "./test-data";
 
-export default function Scroller({ children }: { children: React.ReactNode }) {
+export default function Scroller() {
   React.useEffect(() => {
     if (!document.scrollingElement) return;
     const div = document.scrollingElement;
@@ -22,5 +24,32 @@ export default function Scroller({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  return <div>{children}</div>;
+  return (
+    <div>
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+      <CoinList
+        coins={MOCK_LOGIN_DATA.coins}
+        chart_data={MOCK_LOGIN_DATA.coins_chart_data as never}
+      />
+    </div>
+  );
 }

@@ -1,5 +1,4 @@
 import { store } from "@/lib/store/store";
-import AllCoins from "../coin/coins";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import Text from "../ui/text";
@@ -30,14 +29,7 @@ export default function LoginScreen() {
   return (
     <div>
       <LoginForm onLogin={login} />
-      <Scroller>
-        <AllCoins />
-        <AllCoins />
-        <AllCoins />
-        <AllCoins />
-        <AllCoins />
-        <AllCoins />
-      </Scroller>
+      <Scroller />
     </div>
   );
 }
@@ -49,7 +41,10 @@ function LoginForm({
 }) {
   const theme = useSelector<{ theme: string }, string>((state) => state.theme);
   return (
-    <div className="fixed inset-0 bg-gradient-to-t from-background from-35% to-transparent z-10 grid justify-center items-center">
+    <div
+      className="fixed inset-0 bg-gradient-to-t from-background from-35% to-transparent z-10 grid justify-center items-center"
+      id="login"
+    >
       <Card className="bg-popover/50 backdrop-blur-[2px] border-muted">
         <CardHeader className="flex justify-center items-center">
           <img

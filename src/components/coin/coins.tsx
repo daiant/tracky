@@ -6,7 +6,13 @@ import { store } from "@/lib/store/store";
 import { StarOff } from "lucide-react";
 import { Button } from "../ui/button";
 
-function CoinList({ coins }: { coins: Array<CoinType> }) {
+export function CoinList({
+  coins,
+  chart_data,
+}: {
+  coins: Array<CoinType>;
+  chart_data: { [key: string]: [number, number][] };
+}) {
   const dispatch = useDispatch<typeof store.dispatch>();
   const coinData = useSelector<{ coins: CoinStateProps }, CoinStateProps>(
     (state) => state.coins
@@ -27,7 +33,7 @@ function CoinList({ coins }: { coins: Array<CoinType> }) {
               }
             }}
             starred={coinData.starred.includes(c.symbol)}
-            coinMarketData={coinData.coins_chart_data[c.id]}
+            coinMarketData={chart_data[c.id]}
           />
         ))}
       </TableBody>
@@ -40,7 +46,9 @@ export default function AllCoins() {
     (state) => state.coins
   );
 
-  return <CoinList coins={coinData.coins} />;
+  return (
+    <CoinList coins={coinData.coins} chart_data={coinData.coins_chart_data} />
+  );
 }
 
 export function StarredCoins({ navigateCoins }: { navigateCoins: () => void }) {
@@ -61,5 +69,5 @@ export function StarredCoins({ navigateCoins }: { navigateCoins: () => void }) {
       </div>
     );
 
-  return <CoinList coins={starred} />;
+  return <CoinList coins={starred} chart_data={coinData.coins_chart_data} />;
 }

@@ -84,6 +84,10 @@
   html {
     padding: 8px;
   }
+
+  html:has(#login) {
+    overflow: hidden;
+  }
 }
 
 @layer base {
